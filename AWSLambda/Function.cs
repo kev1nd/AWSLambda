@@ -7,6 +7,10 @@ using Newtonsoft.Json;
 using Amazon.Lambda.Core;
 using Amazon.Lambda.DynamoDBEvents;
 using Amazon.DynamoDBv2.Model;
+using Alexa.NET.Response;
+using Alexa.NET.Request;
+using Alexa.NET.Request.Type;
+using Alexa.NET;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
@@ -42,5 +46,51 @@ namespace AWSLambda
                 return writer.ToString();
             }
         }
+
+
+        // Details here: https://github.com/timheuer/alexa-skills-dotnet
+
+
+        public SkillResponse FunctionHandler(SkillRequest input, ILambdaContext context)
+        {
+            var requestType = input.GetRequestType();
+
+            if (requestType == typeof(IntentRequest))
+            {
+                // do some intent-based stuff
+                // do some intent-based stuff
+                var intentRequest = input.Request as IntentRequest;
+
+                // check the name to determine what you should do
+                if (intentRequest.Intent.Name.Equals("MyIntentName"))
+                {
+                    // get the slots
+                    var firstValue = intentRequest.Intent.Slots["FirstSlot"].Value;
+                }
+            }
+            else if (requestType == typeof(Alexa.NET.Request.Type.LaunchRequest))
+            {
+                // default launch path executed
+            }
+            else if (requestType == typeof(AudioPlayerRequest))
+            {
+                // do some audio response stuff
+            }
+
+            // build the speech response 
+            var speech = new Alexa.NET.Response.SsmlOutputSpeech();
+            speech.Ssml = "<speak>Today is <say-as interpret-as=\"date\">????0922</say-as>.<break strength=\"x-strong\"/>I hope you have a good day.</speak>";
+
+            // create the response using the ResponseBuilder
+            var finalResponse = ResponseBuilder.Tell(speech);
+            return finalResponse;
+
+        }
+
+
+
+
+
+
     }
 }
