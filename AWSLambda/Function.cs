@@ -21,31 +21,31 @@ namespace AWSLambda
     {
         private static readonly JsonSerializer _jsonSerializer = new JsonSerializer();
 
-        public void FunctionHandler(DynamoDBEvent dynamoEvent, ILambdaContext context)
-        {
-            context.Logger.LogLine($"Beginning to process {dynamoEvent.Records.Count} records...");
+        //public void FunctionHandler(DynamoDBEvent dynamoEvent, ILambdaContext context)
+        //{
+        //    context.Logger.LogLine($"Beginning to process {dynamoEvent.Records.Count} records...");
 
-            foreach (var record in dynamoEvent.Records)
-            {
-                context.Logger.LogLine($"Event ID: {record.EventID}");
-                context.Logger.LogLine($"Event Name: {record.EventName}");
+        //    foreach (var record in dynamoEvent.Records)
+        //    {
+        //        context.Logger.LogLine($"Event ID: {record.EventID}");
+        //        context.Logger.LogLine($"Event Name: {record.EventName}");
 
-                string streamRecordJson = SerializeStreamRecord(record.Dynamodb);
-                context.Logger.LogLine($"DynamoDB Record:");
-                context.Logger.LogLine(streamRecordJson );
-            }
+        //        string streamRecordJson = SerializeStreamRecord(record.Dynamodb);
+        //        context.Logger.LogLine($"DynamoDB Record:");
+        //        context.Logger.LogLine(streamRecordJson );
+        //    }
 
-            context.Logger.LogLine("Stream processing complete.");
-        }
+        //    context.Logger.LogLine("Stream processing complete.");
+        //}
 
-        private string SerializeStreamRecord(StreamRecord streamRecord)
-        {
-            using (var writer = new StringWriter())
-            {
-                _jsonSerializer.Serialize(writer, streamRecord);
-                return writer.ToString();
-            }
-        }
+        //private string SerializeStreamRecord(StreamRecord streamRecord)
+        //{
+        //    using (var writer = new StringWriter())
+        //    {
+        //        _jsonSerializer.Serialize(writer, streamRecord);
+        //        return writer.ToString();
+        //    }
+        //}
 
 
         // Details here: https://github.com/timheuer/alexa-skills-dotnet
@@ -53,6 +53,7 @@ namespace AWSLambda
 
         public SkillResponse FunctionHandler(SkillRequest input, ILambdaContext context)
         {
+            context.Logger.LogLine($"Hello world !!");
             var requestType = input.GetRequestType();
 
             if (requestType == typeof(IntentRequest))
