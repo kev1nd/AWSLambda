@@ -80,7 +80,7 @@ namespace AWSLambda
 
             // build the speech response 
             var speech = new Alexa.NET.Response.SsmlOutputSpeech();
-            speech.Ssml = "<speak>Today is <say-as interpret-as=\"date\">????0922</say-as>.<break strength=\"x-strong\"/>I hope you have a good day.</speak>";
+            speech.Ssml = "<speak>Today is <say-as interpret-as=\"date\">20 Feb 2018</say-as>.<break strength=\"x-strong\"/>I hope you have a good day.</speak>";
 
             // create the response using the ResponseBuilder
             var finalResponse = ResponseBuilder.Tell(speech);
