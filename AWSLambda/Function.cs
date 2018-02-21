@@ -53,44 +53,43 @@ namespace AWSLambda
 
         public SkillResponse FunctionHandler(SkillRequest input, ILambdaContext context)
         {
-            context.Logger.LogLine($"Hello world !!");
             var requestType = input.GetRequestType();
+            var speech = new Alexa.NET.Response.SsmlOutputSpeech();
+            speech.Ssml = "<speak>No mataches have been found.</speak>";
 
+ 
             if (requestType == typeof(IntentRequest))
             {
                 // do some intent-based stuff
-                // do some intent-based stuff
                 var intentRequest = input.Request as IntentRequest;
-
+                speech.Ssml = "<speak>Intent recognised.</speak>";
                 // check the name to determine what you should do
-                if (intentRequest.Intent.Name.Equals("MyIntentName"))
+                if (intentRequest.Intent.Name.Equals("TestIntent"))
                 {
                     // get the slots
-                    var firstValue = intentRequest.Intent.Slots["FirstSlot"].Value;
+                    var firstValue = intentRequest.Intent.Slots["date"].Value;
+                    speech.Ssml = "<speak>Slot recognised: " + firstValue + ".</speak>";
                 }
             }
             else if (requestType == typeof(Alexa.NET.Request.Type.LaunchRequest))
             {
                 // default launch path executed
+                speech.Ssml = "<speak>Skill launched.</speak>";
             }
             else if (requestType == typeof(AudioPlayerRequest))
             {
                 // do some audio response stuff
+                speech.Ssml = "<speak>Audio.</speak>";
             }
 
             // build the speech response 
-            var speech = new Alexa.NET.Response.SsmlOutputSpeech();
-            speech.Ssml = "<speak>Today is <say-as interpret-as=\"date\">20 Feb 2018</say-as>.<break strength=\"x-strong\"/>I hope you have a good day.</speak>";
+            var dt = DateTime.Now;
 
             // create the response using the ResponseBuilder
             var finalResponse = ResponseBuilder.Tell(speech);
             return finalResponse;
 
         }
-
-
-
-
 
 
     }
